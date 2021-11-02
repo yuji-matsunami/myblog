@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'blogs.apps.BlogsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,7 +82,7 @@ DATABASES = {
         "USER": "user",
         "PASSWORD": "pass",
         "HOST": "localhost",
-        "POST": "",
+        "POST": "5432",
     }
 }
 
