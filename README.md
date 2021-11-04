@@ -2,5 +2,11 @@
 
 ## djangoでブログを作ってみた
 
-- database
-  - postgresqlを使用
+### database
+
+- postgresqlを使用
+
+### view
+
+- Blogホームページ
+- パーマリンクページ
