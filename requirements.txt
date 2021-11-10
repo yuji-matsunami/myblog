@@ -1,0 +1,4 @@
+Django
+django-markdownx
+Pillow
+psycopg2-binary
