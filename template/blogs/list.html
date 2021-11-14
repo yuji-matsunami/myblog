@@ -1,0 +1,20 @@
+{% extends 'blogs/base.html' %}
+
+{% block  title %}
+<title> Article </title>
+{% endblock title %}
+
+{% block content %}
+<body>
+    <h1> 記事一覧　</h1>
+    <ul>
+        {% for article in object_list %}
+            <li>{{article.title}}</li>
+            <div>{{article.published}}投稿</div>
+        {% empty %}
+            <li> 記事はありません　</li>
+        {% endfor %}
+    </ul>
+    <div>投稿数　{{object_list.count}}</div>
+</body>
+{% endblock content %}
