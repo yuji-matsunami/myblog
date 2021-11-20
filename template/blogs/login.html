@@ -1,0 +1,19 @@
+{% extends 'blogs/base.html' %}
+
+{% block title %}
+    <title>ログイン</title>
+{% endblock title %}
+
+{% block content %}
+    <body>
+        <form method="POST">{% csrf_token %}
+            <h1>サインインする</h1>
+            <label for="inputEmail">ユーザ名</label>
+            <input type="text" placeholder="ユーザー名", name="username" required autofocus>
+            <label for="inputPassword">パスワード</label>
+            <input type="password" placeholder="パスワード" name="password" required>
+            <button type="submit">サインイン</button>
+        </form>
+        {{ context }}
+    </body>
+{% endblock content %}
