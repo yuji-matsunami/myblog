@@ -9,7 +9,7 @@
     <h1> 記事一覧　</h1>
     <ul>
         {% for article in object_list %}
-            <li>{{article.title}}</li>
+            <a href="{% url 'blog-detail' article.pk%}">{{article.title}}</a>
             <div>{{article.published}}投稿</div>
         {% empty %}
             <li> 記事はありません　</li>
