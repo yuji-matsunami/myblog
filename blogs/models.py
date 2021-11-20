@@ -9,7 +9,7 @@ class Blog(models.Model):
     blog_text = MarkdownxField('テキスト')
     published = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='media/', blank=True)
-    url = models.SlugField(unique=True)
+    url = models.SlugField(unique=True, primary_key=True)
 
     # textが安全であることをマークさせる
     # これでmarkdownが適用されるようになる
