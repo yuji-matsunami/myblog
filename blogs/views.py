@@ -1,6 +1,6 @@
 from django.contrib.messages.api import success, warning
 from django.forms import widgets
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse, request
 from django.views.generic import DetailView, ListView, CreateView
 from blogs.models import Blog
@@ -8,6 +8,8 @@ from django.utils import timezone
 from django.contrib import messages
 from markdownx.widgets import MarkdownxWidget
 from django.urls import reverse_lazy
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 def index(request):
@@ -33,7 +35,7 @@ class BlogListView(ListView):
         context['count'] = Blog.objects.all().count()
         return context
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin,CreateView):
     model = Blog
     fields = ['title', 'blog_text', 'url']
     widgets = {
@@ -49,3 +51,16 @@ class BlogCreateView(CreateView):
         # 失敗したとき
         messages.warning(self.request, "保存できませんでした")
         return super().form_invalid(form)
+
+def loginfunc(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('blog-create')
+        else:
+            return render(request, 'blogs/login.html', {'context': 'ログインできません'})
+    return render(request, 'blogs/login.html', {})
+
