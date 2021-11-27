@@ -7,7 +7,7 @@ from markdownx.utils import markdownify
 class Blog(models.Model):
     title = models.CharField(max_length=100)
     blog_text = MarkdownxField('テキスト')
-    published = models.DateTimeField(auto_now_add=True)
+    published = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='media/', blank=True)
     url = models.SlugField(unique=True, primary_key=True)
 

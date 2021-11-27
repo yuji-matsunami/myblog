@@ -1,0 +1,20 @@
+{% extends 'blogs/base.html' %}
+
+{% block title %}
+    <title>編集リスト</title>
+{% endblock title %}
+
+{% block content %}
+<body>
+    <h1>記事一覧<h1>
+    <ul>
+        {% for article in object_list %}
+            <li>
+                <a href="{% url 'blog-update' article.pk %}">{{ article.title }}</a>
+            </li>
+        {% empty %}
+            <li>記事がありません</li>
+        {% endfor %}
+    </ul>
+</body>
+{% endblock content %}
