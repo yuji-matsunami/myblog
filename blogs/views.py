@@ -2,7 +2,8 @@ from django.contrib.messages.api import success, warning
 from django.forms import widgets
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, request
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
+from django.views.generic.base import TemplateView
 from blogs.models import Blog
 from django.utils import timezone
 from django.contrib import messages
@@ -35,6 +36,16 @@ class BlogListView(ListView):
         context['count'] = Blog.objects.all().count()
         return context
 
+class EditListView(ListView):
+    model = Blog
+    template_name = "blogs/edit_list.html"
+
+    # データベースの値を取得してフロントに送る
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = Blog.title # titleを入れる
+        return context
+
 class BlogCreateView(LoginRequiredMixin,CreateView):
     model = Blog
     fields = ['title', 'blog_text', 'url']
@@ -50,6 +61,23 @@ class BlogCreateView(LoginRequiredMixin,CreateView):
     def form_invalid(self, form):
         # 失敗したとき
         messages.warning(self.request, "保存できませんでした")
+        return super().form_invalid(form)
+
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
+    model = Blog
+    fields = ['title', 'blog_text', 'url']
+    widgets = {
+        'blog_text': MarkdownxWidget(),
+    }
+    template_name = "blogs/update.html"
+    success_url = reverse_lazy('blog-list') # ページ遷移（listのページ）に移動させる
+    # 成功したとき
+    def form_valid(self, form) -> HttpResponse:
+        messages.success(self.request, "保存しました")
+        return super().form_valid(form)
+    # 失敗したとき
+    def form_invalid(self, form) -> HttpResponse:
+        messages.warning(self.request, "保存出来ませんでした")
         return super().form_invalid(form)
 
 def loginfunc(request):
